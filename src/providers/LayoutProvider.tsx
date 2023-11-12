@@ -13,6 +13,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 function LayoutProvider({ children }: { children: React.ReactNode }) {
+  const [isAdmin, setIsAdmin] = React.useState(false);
   const menusForAdmin = [
     {
       title: "Home",
@@ -58,6 +59,7 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
       const response = await axios.get("/api/current-user");
       if (response.data.user.isAdmin) {
         setMenusToShow(menusForAdmin);
+        setIsAdmin(true);
       } else {
         setMenusToShow(menusForUser);
       }
@@ -107,7 +109,11 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       )}
-      <div className="py-5">{children}</div>
+      <div className="py-5">
+        {!isAdmin && pathname.includes("admin")
+          ? "You are not authorized to view this page"
+          : children}
+      </div>
     </div>
   );
 }
