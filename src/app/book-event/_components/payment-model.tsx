@@ -43,7 +43,9 @@ function PaymentModal({
       const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${process.env.NEXT_PUBLIC_DOMAIN!}`,
+          return_url:
+            `${process.env.NEXT_PUBLIC_DOMAIN!}` ||
+            "https://sheyevents-next-udemy.vercel.app",
         },
         redirect: "if_required",
       });
